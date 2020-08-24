@@ -1,0 +1,49 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: roc-auth
+  namespace: kube-gateway
+spec:
+  basicAuth:
+    secret: authsecret
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-webui
+  namespace: kube-gateway
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`traefik.yinsheng.studio`)
+      kind: Rule
+      services:
+        - name: traefik
+          port: 8080
+      middlewares:
+        - name: redirect-https
+          namespace: default
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-webui-tls
+  namespace: kube-gateway
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`traefik.yinsheng.studio`)
+      kind: Rule
+      services:
+        - name: traefik
+          port: 8080
+      middlewares:
+        - name: roc-auth
+  tls:
+    #    secretName: dashboard-traefik-cert
+    certResolver: myresolver

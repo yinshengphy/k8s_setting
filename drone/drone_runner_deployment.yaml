@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-runner
+  namespace: kube-ops
+  labels:
+    app.kubernetes.io/name: kube-runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kube-runner
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: kube-runner
+    spec:
+#      nodeSelector:
+#        node-pool: dev
+      containers:
+        - name: runner
+          image: drone/drone-runner-kube:1.0.0-beta.2
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: kube-runner-env

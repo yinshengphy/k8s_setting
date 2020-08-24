@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: drone-service
+  namespace: kube-ops
+spec:
+  selector:
+    app: drone-server
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
