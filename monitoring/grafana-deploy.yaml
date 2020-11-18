@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-core
+  namespace: monitoring
+  labels:
+    app: grafana
+    component: core
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: grafana
+        component: core
+    spec:
+      containers:
+        - image: grafana/grafana:7.2.0
+          name: grafana-core
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              name: grafana
+          env:
+            # The following env variables set up basic auth twith the default admin user and admin password
+            - name: GF_AUTH_BASIC_ENABLED
+              value: "true"
+            - name: GF_AUTH_ANONYMOUS_ENABLED
+              value: "false"
+            - name: GF_SECURITY_ADMIN_USER
+              value: yinshengphy
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: JEqTpre0y1FYzoXJylA=
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+          volumeMounts:
+            - name: grafana-persistent-storage
+              mountPath: /var/libgrafana
+      volumes:
+        - name: grafana-persistent-storage
+          persistentVolumeClaim:
+            claimName: grafana-data-pvc
+  selector:
+    matchLabels:
+      app: grafana
+      component: core

@@ -18,8 +18,6 @@ spec:
       serviceAccountName: traefik-ingress-controller
       tolerations:
         - operator: "Exists"
-      #      nodeSelector:
-      #        kubernetes.io/hostname: ydzs-master
       containers:
         - image: traefik:v2.2
           name: traefik-ingress-lb
@@ -32,22 +30,15 @@ spec:
               hostPort: 443
             - name: admin
               containerPort: 8080
-          args:
-            - --entrypoints.web.Address=:80
-            - --entrypoints.websecure.Address=:443
-            - --api.insecure=true
-            - --providers.kubernetescrd
-            - --api
-            - --api.dashboard=true
-            - --accesslog
-            # 使用 tls 验证这种方式
-            - --certificatesresolvers.myresolver.acme.tlschallenge=true
-            # 邮箱配置
-            - --certificatesResolvers.myresolver.acme.email=yinshengphy@gmail.com
-            # 保存 ACME 证书的位置
-            - --certificatesResolvers.myresolver.acme.storage="acme.json"
-            # 下面是用于测试的ca服务，如果https证书生成成功了，则移除下面参数
-            - --certificatesresolvers.myresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
+            - name: metrics
+              containerPort: 8082
+          volumeMounts:
+            - mountPath: "/etc/traefik"
+              name: config
+      volumes:
+        - name: config
+          configMap:
+            name: traefik-config
 ---
 
 kind: Service
@@ -62,3 +53,6 @@ spec:
     - protocol: TCP
       port: 8080
       name: admin
+    - protocol: TCP
+      port: 8082
+      name: metrics

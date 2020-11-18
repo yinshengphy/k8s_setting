@@ -44,26 +44,6 @@ spec:
           port: 8080
       middlewares:
         - name: roc-auth
-      priority: 1
-  tls:
-    #    secretName: dashboard-traefik-cert
-    certResolver: myresolver
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: traefik-metrics-tls
-  namespace: kube-gateway
-spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`traefik.yinsheng.studio`) && Path(`/metrics/`)
-      kind: Rule
-      services:
-        - name: traefik
-          port: 8082
-      priority: 2
   tls:
     #    secretName: dashboard-traefik-cert
     certResolver: myresolver

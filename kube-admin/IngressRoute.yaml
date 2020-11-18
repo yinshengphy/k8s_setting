@@ -1,0 +1,37 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kube-dashboard
+  namespace: kube-system
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`dashboard.yinsheng.studio`)
+      kind: Rule
+      services:
+        - name: kubernetes-dashboard
+          port: 80
+      middlewares:
+        - name: redirect-https
+          namespace: default
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kube-dashboard-tls
+  namespace: kube-system
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`dashboard.yinsheng.studio`)
+      kind: Rule
+      services:
+        - name: kubernetes-dashboard
+          port: 80
+  tls:
+    #    secretName: dashboard-traefik-cert
+    certResolver: myresolver

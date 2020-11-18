@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: drone-env
+  namespace: kube-ops
+data:
+  DRONE_GITHUB_SERVER: https://github.com
+  DRONE_GITHUB_CLIENT_ID: 3bf5423b744edc98ddfc
+  DRONE_GITHUB_CLIENT_SECRET: 2b5e6ac6d8a74c4d8c41006e0f9ec7f47b57594a
+  DRONE_SERVER_HOST: drone.yinsheng.studio
+  DRONE_SERVER_PROTO: https
+  DRONE_RPC_SECRET: 15def54cf40533f3813950399f8e1451
+  DRONE_LOGS_TRACE: 'true'
+  DRONE_USER_CREATE: username:yinshengphy,admin:true
+

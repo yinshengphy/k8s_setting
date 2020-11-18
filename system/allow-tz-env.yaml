@@ -1,0 +1,96 @@
+apiVersion: settings.k8s.io/v1alpha1
+kind: PodPreset
+metadata:
+  name: allow-tz-env
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+  env:
+    - name: TZ
+      value: Asia/Shanghai
+---
+apiVersion: settings.k8s.io/v1alpha1
+kind: PodPreset
+metadata:
+  name: allow-tz-env
+  namespace: blog
+spec:
+  selector:
+    matchLabels:
+  env:
+    - name: TZ
+      value: Asia/Shanghai
+---
+apiVersion: settings.k8s.io/v1alpha1
+kind: PodPreset
+metadata:
+  name: allow-tz-env
+  namespace: kube-gateway
+spec:
+  selector:
+    matchLabels:
+  env:
+    - name: TZ
+      value: Asia/Shanghai
+---
+apiVersion: settings.k8s.io/v1alpha1
+kind: PodPreset
+metadata:
+  name: allow-tz-env
+  namespace: kube-ops
+spec:
+  selector:
+    matchLabels:
+  env:
+    - name: TZ
+      value: Asia/Shanghai
+---
+apiVersion: settings.k8s.io/v1alpha1
+kind: PodPreset
+metadata:
+  name: allow-tz-env
+  namespace: kube-public
+spec:
+  selector:
+    matchLabels:
+  env:
+    - name: TZ
+      value: Asia/Shanghai
+---
+apiVersion: settings.k8s.io/v1alpha1
+kind: PodPreset
+metadata:
+  name: allow-tz-env
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+  env:
+    - name: TZ
+      value: Asia/Shanghai
+---
+apiVersion: settings.k8s.io/v1alpha1
+kind: PodPreset
+metadata:
+  name: allow-tz-env
+  namespace: kubernetes-dashboard
+spec:
+  selector:
+    matchLabels:
+  env:
+    - name: TZ
+      value: Asia/Shanghai
+---
+apiVersion: settings.k8s.io/v1alpha1
+kind: PodPreset
+metadata:
+  name: allow-tz-env
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+  env:
+    - name: TZ
+      value: Asia/Shanghai
+

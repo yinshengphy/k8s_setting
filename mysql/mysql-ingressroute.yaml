@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: mysql-webui-tls
+  namespace: mysql
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HostSNI(`mysql.yinsheng.studio`)
+      kind: Rule
+      services:
+        - name: mysql
+          port: 3306
+  tls:
+    certResolver: myresolver

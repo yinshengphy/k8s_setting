@@ -1,0 +1,36 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: drone-webui
+  namespace: kube-ops
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`drone.yinsheng.studio`)
+      kind: Rule
+      services:
+        - name: drone-service
+          #          passHostHeader: false
+          port: 80
+      middlewares:
+        - name: redirect-https
+          namespace: default
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: drone-webui-tls
+  namespace: kube-ops
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`drone.yinsheng.studio`)
+      kind: Rule
+      services:
+        - name: drone-service
+          #          passHostHeader: false
+          port: 80
+  tls:
+    certResolver: myresolver

@@ -31,5 +31,5 @@ spec:
       volumes:
         - name: nfs-client-root
           nfs:
-            server: xxxxxx
+            server: 106.12.89.13
             path: /data/k8s
